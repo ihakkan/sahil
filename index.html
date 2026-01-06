@@ -1,313 +1,424 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Sahil Shah | Student Portfolio</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sahil Shah</title>
 
 <style>
 :root{
-  --bg1:#020617;
-  --bg2:#020024;
-  --card:rgba(17,24,39,0.75);
+  --bg:#020617;
+  --card:rgba(15,23,42,0.7);
   --text:#e5e7eb;
-  --muted:#9ca3af;
-  --accent:#22c55e;
-  --accent2:#38bdf8;
-  --glow:#22c55e55;
+  --muted:#94a3b8;
+  --green:#22c55e;
+  --blue:#38bdf8;
+  --accent:#f59e0b;
 }
 
-*{
-  margin:0;
-  padding:0;
-  box-sizing:border-box;
-  font-family:system-ui,Segoe UI,sans-serif;
-}
-
+*{margin:0;padding:0;box-sizing:border-box; scroll-behavior: smooth;}
 body{
-  min-height:100vh;
-  background:radial-gradient(circle at top, #020024, #000);
+  background:radial-gradient(circle at top,#020024,#000);
   color:var(--text);
+  font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
   overflow-x:hidden;
+  line-height: 1.6;
 }
 
-/* Animated Background */
-.bg{
+/* ===== PARTICLES & BACKGROUND ===== */
+canvas{
   position:fixed;
   inset:0;
+  z-index:-2;
+}
+
+.glow{
+  position:fixed;
+  width:300px;
+  height:300px;
+  border-radius:50%;
+  pointer-events:none;
+  background:radial-gradient(circle, var(--blue), transparent 70%);
+  filter:blur(80px);
+  opacity:.15;
   z-index:-1;
-  background:
-    radial-gradient(circle at 20% 30%, #22c55e33, transparent 40%),
-    radial-gradient(circle at 80% 70%, #38bdf833, transparent 40%);
-  animation:bgMove 12s infinite alternate ease-in-out;
-}
-@keyframes bgMove{
-  from{filter:hue-rotate(0deg)}
-  to{filter:hue-rotate(60deg)}
+  transition: transform 0.1s ease-out;
 }
 
-/* Header */
+/* ===== HEADER & PROFILE ===== */
 header{
+  min-height:100vh;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
   text-align:center;
-  padding:80px 20px 40px;
-}
-header h1{
-  font-size:3rem;
-  letter-spacing:1px;
-}
-header span{
-  color:var(--accent);
-  text-shadow:0 0 20px var(--glow);
-}
-.typing{
-  margin-top:12px;
-  color:var(--muted);
-  font-size:1.1rem;
-  min-height:1.4em;
+  padding:20px;
+  position: relative;
 }
 
-/* Sections */
-section{
-  max-width:1100px;
-  margin:50px auto;
-  padding:0 20px;
+.profile-img-container {
+  width: 180px;
+  height: 180px;
+  border-radius: 50%;
+  padding: 5px;
+  background: linear-gradient(45deg, var(--green), var(--blue));
+  margin-bottom: 20px;
+  animation: float 6s infinite ease-in-out;
+  box-shadow: 0 0 30px rgba(56, 189, 248, 0.3);
 }
+
+.profile-img-container img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 4px solid var(--bg);
+}
+
+header h1{
+  font-size: clamp(2.5rem, 8vw, 4.5rem);
+  font-weight: 800;
+  letter-spacing: -1px;
+}
+
+header span{
+  color: var(--green);
+  text-shadow: 0 0 20px rgba(34, 197, 94, 0.4);
+}
+
+.typing-text {
+  height: 1.5rem;
+  color: var(--blue);
+  font-weight: 500;
+  font-size: 1.3rem;
+}
+
+.pulse{
+  margin-top: 40px;
+  padding: 12px 25px;
+  border-radius: 50px;
+  background: rgba(34, 197, 94, 0.1);
+  border: 1px solid var(--green);
+  cursor: pointer;
+  transition: 0.3s;
+  animation: pulse 2s infinite;
+}
+
+/* ===== LAYOUT SECTIONS ===== */
+section{
+  max-width: 1000px;
+  margin: 100px auto;
+  padding: 0 25px;
+}
+
+h2{
+  font-size: 2.2rem;
+  margin-bottom: 40px;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+h2::after {
+  content: "";
+  height: 2px;
+  flex-grow: 1;
+  background: linear-gradient(to right, var(--blue), transparent);
+}
+
+/* ===== GRID & CARDS ===== */
 .grid{
   display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
-  gap:24px;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 20px;
 }
 
-/* Cards */
 .card{
-  background:var(--card);
-  border-radius:18px;
-  padding:26px;
-  backdrop-filter:blur(10px);
-  border:1px solid rgba(255,255,255,0.08);
-  position:relative;
-  overflow:hidden;
-  transition:0.4s;
+  background: var(--card);
+  border-radius: 24px;
+  padding: 30px;
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255,255,255,0.08);
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
-.card::before{
+
+.card:hover{
+  transform: translateY(-10px);
+  border-color: var(--blue);
+  box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+}
+
+/* ===== SKILLS BARS ===== */
+.skill-item { margin-bottom: 20px; }
+.skill-info { display: flex; justify-content: space-between; margin-bottom: 8px; }
+.bar-bg { width: 100%; height: 8px; background: #1e293b; border-radius: 10px; overflow: hidden; }
+.bar-fill { height: 100%; background: var(--green); width: 0; transition: 2s width ease-in-out; }
+
+/* ===== TIMELINE ===== */
+.timeline{
+  position: relative;
+  padding-left: 30px;
+}
+.timeline::before {
+  content: "";
+  position: absolute;
+  left: 0; top: 0; width: 2px; height: 100%;
+  background: linear-gradient(var(--green), var(--blue));
+}
+.step{
+  margin-bottom: 40px;
+  position: relative;
+  background: var(--card);
+  padding: 20px;
+  border-radius: 15px;
+}
+.step::before{
   content:"";
   position:absolute;
-  inset:-1px;
-  background:linear-gradient(120deg,transparent, #22c55e44, transparent);
-  opacity:0;
-  transition:0.4s;
-}
-.card:hover::before{opacity:1}
-.card:hover{
-  transform:translateY(-10px) scale(1.02);
-  box-shadow:0 30px 60px rgba(0,0,0,0.5);
-}
-
-.card h2{
-  color:var(--accent2);
-  margin-bottom:10px;
+  left:-37px;
+  top:20px;
+  width:12px;
+  height:12px;
+  background:var(--bg);
+  border: 3px solid var(--green);
+  border-radius:50%;
+  z-index: 2;
 }
 
-.card p,li{
-  color:var(--muted);
-  font-size:0.95rem;
+/* ===== STATS ===== */
+.stats-container {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 15px;
+}
+.stat-box {
+  background: var(--card);
+  padding: 20px;
+  border-radius: 20px;
+  text-align: center;
+}
+.stat-box h3 { font-size: 2.5rem; color: var(--green); }
+
+/* ===== ANIMATIONS ===== */
+@keyframes pulse{
+  0%{box-shadow:0 0 0 0 rgba(34,197,94,0.4)}
+  70%{box-shadow:0 0 0 15px transparent}
+  100%{box-shadow:0 0 0 0 transparent}
+}
+@keyframes float{
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-15px) rotate(2deg); }
 }
 
-/* Lists */
-ul{list-style:none}
-li::before{
-  content:"▹";
-  color:var(--accent);
-  margin-right:8px;
-}
-
-/* Skill Bars */
-.skill{
-  margin:12px 0;
-}
-.bar{
-  height:8px;
-  background:#111;
-  border-radius:20px;
-  overflow:hidden;
-}
-.fill{
-  height:100%;
-  width:0;
-  background:linear-gradient(90deg,var(--accent),var(--accent2));
-  border-radius:20px;
-  transition:1.2s ease;
-}
-
-/* Stats */
-.stats{
-  display:flex;
-  justify-content:space-around;
-  text-align:center;
-}
-.stat h3{
-  font-size:2rem;
-  color:var(--accent);
-}
-
-/* Scroll Animation */
 .reveal{
   opacity:0;
   transform:translateY(30px);
-  transition:0.9s ease;
+  transition: 0.8s ease-out;
 }
 .reveal.show{
   opacity:1;
   transform:none;
 }
+.reveal.show .bar-fill { width: var(--w); }
 
-/* Footer */
-footer{
-  text-align:center;
-  padding:30px;
-  color:var(--muted);
-  font-size:0.9rem;
+/* ===== MOBILE OPTIMIZATION ===== */
+@media (max-width: 600px) {
+  header h1 { font-size: 2.8rem; }
+  .stats-container { grid-template-columns: 1fr; }
+  section { margin: 60px auto; }
+  .profile-img-container { width: 140px; height: 140px; }
 }
 
-@media(max-width:600px){
-  header h1{font-size:2.3rem}
+footer{
+  text-align:center;
+  padding:60px 20px;
+  border-top: 1px solid rgba(255,255,255,0.05);
+  font-size: 0.9rem;
+  color: var(--muted);
 }
 </style>
 </head>
 
 <body>
-<div class="bg"></div>
 
-<header class="reveal">
+<canvas id="particles"></canvas>
+<div class="glow" id="glow"></div>
+
+<header>
+  <div class="profile-img-container">
+    <img src="sahil.png" alt="Sahil Shah">
+  </div>
   <h1>Sahil <span>Shah</span></h1>
-  <div class="typing" id="typing"></div>
+  <div class="typing-text" id="typewriter"></div>
+  <div class="pulse">Scroll to explore my world</div>
 </header>
 
 <section class="reveal">
-  <div class="grid">
-    <div class="card">
-      <h2>About Me</h2>
-      <p>
-        I am Sahil Shah, a Class 11 student from the WBBSE board.
-        I scored 70% in the Madhyamik Examination and I am currently
-        pursuing ITI alongside my school education to gain practical skills.
-      </p>
+  <h2>My Journey</h2>
+  <div class="timeline">
+    <div class="step">
+      <strong style="color:var(--green)">2024: Madhyamik Success</strong>
+      <p>Achieved 70% marks with consistent effort and focus.</p>
     </div>
-
-    <div class="card">
-      <h2>Education</h2>
-      <ul>
-        <li>Class 11 – WBBSE Board</li>
-        <li>Madhyamik – 70%</li>
-        <li>ITI – Ongoing</li>
-      </ul>
+    <div class="step">
+      <strong style="color:var(--blue)">2025: Dual Learning</strong>
+      <p>Enrolled in Class 11 (WBBSE) while simultaneously pursuing ITI skills.</p>
     </div>
-
-    <div class="card">
-      <h2>Skills</h2>
-      <div class="skill">
-        Technical Basics
-        <div class="bar"><div class="fill" data-fill="75%"></div></div>
-      </div>
-      <div class="skill">
-        Discipline
-        <div class="bar"><div class="fill" data-fill="85%"></div></div>
-      </div>
-      <div class="skill">
-        Teamwork
-        <div class="bar"><div class="fill" data-fill="80%"></div></div>
-      </div>
-    </div>
-
-    <div class="card">
-      <h2>Sports & Gaming</h2>
-      <ul>
-        <li>Skilled Cricketer 🏏</li>
-        <li>Free Fire Player 🎮</li>
-        <li>Competitive mindset</li>
-        <li>Strategic thinking</li>
-      </ul>
+    <div class="step">
+      <strong style="color:var(--accent)">The Future: Balance</strong>
+      <p>Mastering technical expertise while maintaining peak athletic performance.</p>
     </div>
   </div>
 </section>
 
 <section class="reveal">
-  <div class="card stats">
-    <div class="stat">
-      <h3 class="count" data-target="70">0</h3>
-      <p>Madhyamik %</p>
+  <h2>Skills & Levels</h2>
+  <div class="card">
+    <div class="skill-item">
+      <div class="skill-info"><span>Academic Focus</span><span>85%</span></div>
+      <div class="bar-bg"><div class="bar-fill" style="--w: 85%"></div></div>
     </div>
-    <div class="stat">
-      <h3 class="count" data-target="11">0</h3>
-      <p>Class</p>
+    <div class="skill-item">
+      <div class="skill-info"><span>Technical (ITI)</span><span>70%</span></div>
+      <div class="bar-bg"><div class="bar-fill" style="--w: 70%; background: var(--blue)"></div></div>
     </div>
-    <div class="stat">
-      <h3 class="count" data-target="2">0</h3>
-      <p>Skills Paths</p>
+    <div class="skill-item">
+      <div class="skill-info"><span>Cricket (All-rounder)</span><span>90%</span></div>
+      <div class="bar-bg"><div class="bar-fill" style="--w: 90%; background: var(--accent)"></div></div>
+    </div>
+    <div class="skill-item">
+      <div class="skill-info"><span>Gaming Strategy</span><span>95%</span></div>
+      <div class="bar-bg"><div class="bar-fill" style="--w: 95%"></div></div>
+    </div>
+  </div>
+</section>
+
+<section class="reveal">
+  <h2>Personal Pillars</h2>
+  <div class="grid">
+    <div class="card">
+      <div style="font-size: 2rem; margin-bottom: 10px;">🏏</div>
+      <h3>Discipline</h3>
+      <p>Early morning cricket practice builds the mental toughness I use in my studies.</p>
+    </div>
+    <div class="card">
+      <div style="font-size: 2rem; margin-bottom: 10px;">🛠️</div>
+      <h3>Hard Work</h3>
+      <p>Learning practical skills at ITI ensures I'm ready for the real world.</p>
+    </div>
+    <div class="card">
+      <div style="font-size: 2rem; margin-bottom: 10px;">🎯</div>
+      <h3>Strategy</h3>
+      <p>Gaming isn't just a hobby; it's where I learn to think three steps ahead.</p>
+    </div>
+  </div>
+</section>
+
+<section class="reveal">
+  <h2>The Data</h2>
+  <div class="stats-container">
+    <div class="stat-box">
+      <h3>70%</h3>
+      <p>Madhyamik Score</p>
+    </div>
+    <div class="stat-box">
+      <h3>Grade 11</h3>
+      <p>Current Standing</p>
+    </div>
+    <div class="stat-box">
+      <h3>Top 10</h3>
+      <p>Rank in Gaming</p>
     </div>
   </div>
 </section>
 
 <footer>
-  © 2026 Sahil Shah • Student Portfolio
+  <p>© 2026 Sahil Shah</p>
+  <p style="margin-top:10px; font-size: 0.8rem;">Designed for Performance & Clarity</p>
 </footer>
 
 <script>
-// Typing Effect
-const texts=[
-  "Class 11 Student",
-  "ITI Trainee",
-  "Cricketer 🏏",
-  "Free Fire Player 🎮"
-];
-let i=0,j=0,del=false;
-const el=document.getElementById("typing");
+/* ===== BACKGROUND PARTICLES ===== */
+const c=document.getElementById("particles"),ctx=c.getContext("2d");
+let w,h,particles=[];
+function resize(){
+  w=c.width=innerWidth;
+  h=c.height=innerHeight;
+}
+window.onresize=resize;resize();
 
-setInterval(()=>{
-  el.textContent=texts[i].slice(0,j);
-  if(!del && j++===texts[i].length+5) del=true;
-  if(del && j--===0){del=false;i=(i+1)%texts.length}
-},120);
+class Particle {
+  constructor() {
+    this.reset();
+  }
+  reset() {
+    this.x = Math.random() * w;
+    this.y = Math.random() * h;
+    this.r = Math.random() * 2 + 0.5;
+    this.vx = (Math.random() - 0.5) * 0.3;
+    this.vy = (Math.random() - 0.5) * 0.3;
+    this.life = Math.random() * 0.5 + 0.2;
+  }
+  draw() {
+    ctx.beginPath();
+    ctx.arc(this.x, this.y, this.r, 0, Math.PI * 2);
+    ctx.fillStyle = `rgba(34, 197, 94, ${this.life})`;
+    ctx.fill();
+    this.x += this.vx;
+    this.y += this.vy;
+    if(this.x < 0 || this.x > w || this.y < 0 || this.y > h) this.reset();
+  }
+}
 
-// Scroll Reveal
-const reveals=document.querySelectorAll(".reveal");
+for(let i=0;i<80;i++) particles.push(new Particle());
+
+function animate(){
+  ctx.clearRect(0,0,w,h);
+  particles.forEach(p => p.draw());
+  requestAnimationFrame(animate);
+}
+animate();
+
+/* ===== TYPEWRITER EFFECT ===== */
+const text = "Class 11 Student | ITI Aspirant | Cricketer | Gamer";
+let idx = 0;
+function type() {
+  if (idx < text.length) {
+    document.getElementById("typewriter").innerHTML += text.charAt(idx);
+    idx++;
+    setTimeout(type, 100);
+  }
+}
+type();
+
+/* ===== CURSOR GLOW ===== */
+const glow=document.getElementById("glow");
+window.addEventListener("mousemove",e=>{
+  glow.style.transform = `translate(${e.clientX - 150}px, ${e.clientY - 150}px)`;
+});
+
+/* ===== REVEAL ON SCROLL ===== */
 const obs=new IntersectionObserver(e=>{
   e.forEach(x=>{
-    if(x.isIntersecting)x.target.classList.add("show");
+    if(x.isIntersecting) {
+      x.target.classList.add("show");
+    }
+  })
+},{threshold: 0.1});
+document.querySelectorAll(".reveal").forEach(el=>obs.observe(el));
+
+/* ===== 3D TILT EFFECT ===== */
+document.querySelectorAll(".card").forEach(card=>{
+  card.addEventListener("mousemove",e=>{
+    const r=card.getBoundingClientRect();
+    const x=(e.clientX-r.left) / r.width - 0.5;
+    const y=(e.clientY-r.top) / r.height - 0.5;
+    card.style.transform= `perspective(1000px) rotateX(${y * -10}deg) rotateY(${x * 10}deg) translateY(-10px)`;
   });
-},{threshold:0.15});
-reveals.forEach(r=>obs.observe(r));
-
-// Skill Bars
-document.querySelectorAll(".fill").forEach(f=>{
-  obs.observe(f);
-  f.addEventListener("transitionstart",()=>{});
-  if(f.parentElement.getBoundingClientRect().top<window.innerHeight){
-    f.style.width=f.dataset.fill;
-  }
-});
-obs.observe(document.body);
-
-// Counter Animation
-document.querySelectorAll(".count").forEach(counter=>{
-  let done=false;
-  obs.observe(counter);
-  obs.callback=(entries)=>{
-    entries.forEach(e=>{
-      if(e.isIntersecting && !done){
-        done=true;
-        let target=+counter.dataset.target;
-        let cur=0;
-        const step=target/60;
-        const int=setInterval(()=>{
-          cur+=step;
-          if(cur>=target){counter.textContent=target;clearInterval(int);}
-          else counter.textContent=Math.floor(cur);
-        },25);
-      }
-    });
-  };
+  card.addEventListener("mouseleave",()=>card.style.transform="none");
 });
 </script>
+
 </body>
 </html>
